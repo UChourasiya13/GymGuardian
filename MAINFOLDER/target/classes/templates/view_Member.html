@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head th:replace="fragments :: html_head">
+</head>
+<body>
+<!--Navbar-->
+
+<div th:replace="fragments :: menu"></div>
+<div th:if="${session.msg}">
+    <div class="alert alert-success" role="alert" th:text="${session.msg}">
+    </div>
+    <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+</div>
+
+<div class="container" style="padding:2%">
+    <h4 align="center"> View Member</h4>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr style="background:purple;color:white">
+            <th>Id</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>EmailID</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Plan</th>
+            <th>Joining Date</th>
+            <th>Plan ExpireDate</th>
+            <th>Initial Amount</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="e:${doc}">
+            <th th:text="${e.id}"></th>
+            <th th:text="${e.name}"></th>
+            <th th:text="${e.phno}"></th>
+            <th th:text="${e.email}"></th>
+            <th th:text="${e.age}"></th>
+            <th th:text="${e.gender}"></th>
+            <th th:text="${e.plan.planName}"></th>
+            <th th:text="${e.joiningDate}"></th>
+            <th th:text="${e.planExpireDate}"></th>
+            <th th:text="${e.initialAmount}"></th>
+            <th>
+                <button class="btn-btn-success" data-toggle="model"><a th:href="@{/edit_member/{id}(id=${e.id})}"><i class="fa fa-edit"></i></a></button>
+            </th>
+            <td> <button class="btn-btn-success" data-toggle="model" onclick="return confirm('Are you sure? You want to delete')"><a th:href="@{/delete_member/{id}(id=${e.id})}"><i class="fa fa-trash"></i></a></button></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+</body>
+</html>

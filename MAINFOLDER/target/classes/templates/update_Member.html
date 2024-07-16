@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.com">
+<head th:replace="fragments :: html_head">
+
+</head>
+<body>
+<!--Navbar-->
+
+<!--table-->
+<div th:replace="fragments :: menu"></div>
+<h4 align="center" style="padding:1%;font-family:cursive"> Update Member</h4>
+<div class="container" style="height:90px;width:70%">
+  <form th:userDto="${user}" th:action="@{/update_member/{id}(id=${user.id})}" th:object="${user}" method="post" style="background-color:#f2f2f2;padding:1%;font-family:cursive">
+    <div class="form-group">
+      <label for="exampleInput1">Name</label>
+      <input type="text" class="form-control" id="exampleInput1" aria-describedby="emailHelp" placeholder="Enter Name" name="name" th:value="${user.name}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput2">Contact Number</label>
+      <input type="number" class="form-control" id="exampleInput2" placeholder="Enter Mobile Number" name="phno" maxlength="10" th:value="${user.phno}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput2">Email Id</label>
+      <input type="email" class="form-control" id="exampleInput3" placeholder="Enter Email id" name="email" th:value="${user.email}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput3">Age</label>
+      <input type="number" class="form-control" id="exampleInput4" placeholder="Enter Age" name="age" th:value="${user.age}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput1"> Gender</label>
+      <select id="gender" name="gender" class="form-control" >
+        <option value="Male" th:selected="${user.gender=='Male'}">Male</option>
+        <option value="Female" th:selected="${user.gender=='Female'}">Female</option>
+      </select>
+    </div>
+
+        <div class="form-group">
+          <label>Plan</label>
+          <select name="plan" class="form-control" id="planData" >
+
+          </select>
+
+        </div>
+    <div class="form-group">
+      <label for="exampleInput6">Plan joiningDate</label>
+      <input type="datetime-local" class="form-control" id="exampleInput6" name="joiningDate" th:value="${user.joiningDate}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput6">Plan ExpireDate</label>
+      <input type="datetime-local" class="form-control" id="exampleInput6" name="planExpireDate" th:value="${user.planExpireDate}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput6">Initial Amount</label>
+      <input type="number" class="form-control" id="exampleInput6" placeholder="Enter Initial Amount" name="initialAmount" th:value="${user.initialAmount}">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <input type="hidden" th:value="${user.id}" id="appid">
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+ var appid=document.getElementById('appid').value;
+ console.log(appid)
+ var appdocname = "";
+ var appdocid = "";
+$( document ).ready(function() {
+
+
+        $.ajax({
+                url : "/update_gym_value/"+appid,
+                type : 'GET',
+                processData: false,
+                contentType: false,
+                success : function(data) {
+                   console.log(Object.keys(data).length, data[0]);
+                   appdocname = data[0]['plan']['planName'];
+                   appdocid= data[0]['plan']['id'];
+                   console.log("My Selected doctor =", appdocname);
+                   console.log("App Doctor Id = ", appdocid);
+
+                }
+            })
+    });
+const tyTimeout = setTimeout(myGreeting, 500);
+
+
+function myGreeting() {
+  mySelect = document.getElementById('planData').innerHTML;
+  $.ajax({
+            url : "/plan_list",
+            type : 'GET',
+            processData: false,
+            contentType: false,
+            success : function(data) {
+                console.log(Object.keys(data).length);
+                for(var i=0; i<Object.keys(data).length; i++){
+                  if(appdocid===data[i]['id']){
+                    mySelect +=
+                        `<option value="`+ data[i]['id'] +`"selected>`+ data[i]['planName'] + " (" + data[i]['id'] + `)</option>
+                        `
+                 }
+                 else{
+                      mySelect +=
+                      `<option value="`+ data[i]['id'] +`">`+ data[i]['planName'] + " (" + data[i]['id'] + `)</option>
+                      `
+                  }
+                }
+
+                document.getElementById('planData').innerHTML = mySelect;
+                console.log(mySelect);
+
+            }
+        })
+
+}
+</script>
+
+</body>
+</html>

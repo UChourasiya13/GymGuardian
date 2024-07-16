@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.com">
+<head th:replace="fragments :: html_head">
+
+</head>
+<body>
+<!--Navbar-->
+
+<!--table-->
+<div th:replace="fragments :: menu"></div>
+<div class="container" style="padding:5%">
+  <h4 align="center"> Update Enquiry</h4>
+  <form th:userDto="${user}" th:action="@{/update_enquiry/{id}(id=${user.id})}" th:object="${user}" method="post">
+    <div class="form-group">
+      <label for="exampleInput1">Name</label>
+      <input type="text" class="form-control" id="exampleInput1" aria-describedby="emailHelp" placeholder="Enter Name" name="name" th:value="${user.name}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput2">Contact Number</label>
+      <input type="number" class="form-control" id="exampleInput2" placeholder="Enter Mobile Number" name="phno" maxlength="10" th:value="${user.phno}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput2">Email Id</label>
+      <input type="email" class="form-control" id="exampleInput3" placeholder="Enter Email id" name="email" th:value="${user.email}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput3">Age</label>
+      <input type="number" class="form-control" id="exampleInput4" placeholder="Enter Age" name="age" th:value="${user.age}">
+    </div>
+    <div class="form-group">
+      <label for="exampleInput1"> Gender</label>
+      <select id="gender" name="gender" class="form-control" >
+        <option value="Male" th:selected="${user.gender=='Male'}">Male</option>
+        <option value="Female" th:selected="${user.gender=='Female'}">Female</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+</body>
+</html>

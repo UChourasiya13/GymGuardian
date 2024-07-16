@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head th:replace="fragments :: html_head">
+</head>
+<body>
+<!--Navbar-->
+
+<div th:replace="fragments :: menu"></div>
+<div th:if="${session.msg}">
+    <div class="alert alert-success" role="alert" th:text="${session.msg}">
+    </div>
+    <th:block th:text="${#session.removeAttribute('msg')}"></th:block>
+</div>
+
+<div class="container" style="padding:2%">
+    <h4 align="center"> View Equipment</h4>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr style="background:purple;color:white">
+            <th>Equipment Id</th>
+            <th>Equipment Name</th>
+            <th>Price</th>
+            <th>Unit</th>
+            <th>Purchase Date</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="e:${doc}">
+            <th th:text="${e.id}"></th>
+            <th th:text="${e.equipmentName}"></th>
+            <th th:text="${e.price}"></th>
+            <th th:text="${e.unit}"></th>
+            <th th:text="${e.purchaseDate}"></th>
+            <th th:text="${e.description}"></th>
+            <th>
+                <button class="btn-btn-success" data-toggle="model"><a th:href="@{/edit_eq/{id}(id=${e.id})}"><i class="fa fa-edit"></i></a></button>
+            </th>
+            <td> <button class="btn-btn-success" data-toggle="model" onclick="return confirm('Are you sure? You want to delete')"><a th:href="@{/delete_eq/{id}(id=${e.id})}"><i class="fa fa-trash"></i></a></button></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+</body>
+</html>
